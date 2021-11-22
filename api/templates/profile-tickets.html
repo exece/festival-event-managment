@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/profile-tickets.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+<!-- Displaying user's tickets -->
+<body>
+  <br />
+  <h1 class="primary-header text-center">My Tickets</h1>
+  <br />
+  <div class="main">
+    <div class="card-group mx-5">
+      <div class="card mx-3 my-5">
+        <!-- checking for each tickets in the ticket database table -->
+        {% for ticket in tickets %}
+        <div class="ticket py-3 px-2 container-fluid">
+          <div class="row align-items-center justify-content-center">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+              <h2 class="secondary-header pr-5 text-center font-weight-bold">
+                {{ticket.event.name}}
+              </h2>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-3 ticket-data">
+              <img src={{ticket.event.image}} class='mx-auto d-block my-5' style="height: 200px">
+            </div>
+            <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+              <h4 class="text text-center">Date: {{ticket.event.startDate}}</h4>
+            </div>
+            <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+              <h4 class="text text-center">Qty: {{ticket.quantity}}</h4>
+            </div>
+            <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+              <h4 class="text text-center">Price: ${{ticket.event.ticketPrice}}</h4>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ticket-data">
+              <!-- Condition for different colours for status -->
+              {% if ticket.event.status == 'Upcoming' %}
+              <div class="ticket__status" style="background-color: rgba(0, 128, 0, 0.5);">
+                <span>{{ticket.event.status}}</span>
+              </div>
+              {% elif ticket.event.status == 'Booked' %}
+              <div class="ticket__status" style="background-color: rgba(1, 25, 77, 0.575)">
+                <span>{{ticket.event.status}}</span>
+              </div>
+              {% elif ticket.event.status == 'Cancelled' %}
+              <div class="ticket__status" style="background-color: rgba(155, 26, 32, 0.5)">
+                <span>{{ticket.event.status}}</span>
+              </div>
+              {% elif ticket.event.status == 'Inactive' %}
+              <div class="ticket__status" style="background-color: rgba(104, 104, 104, 0.5)">
+                <span>{{ticket.event.status}}</span>
+              </div>
+              {% endif %}
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ticket-data">
+              <a href="{{ url_for('event.eventView', id=ticket.event.id) }}" class="btn btn-primary w-100 mt-2">View</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+</body>
+{% endblock %}

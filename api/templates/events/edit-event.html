@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/create-event.css') }}" />
+
+{% endblock %}
+
+{% block content %}
+<article class="container-fluid">
+  <form method="POST" action="" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="row main">
+      <div class="card border-light sub">
+        <div class="row text-center">
+          <h1>Edit Or Delete Your Event</h1>
+          <p>Note: All fields must be filled out appropriately to edit your event</p>
+        </div>
+
+        <!-- flashes any messages to the user -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <!-- check if there are any messages -->
+        <div class="container-fluid">
+          <div class="row mt-3 mb-3">
+            <div class="col-md-12">
+              {% for message in messages %}
+              <!--loop through the messages-->
+              <div class="alert alert-warning">{{ message }}</div>
+              <!--display as alert-->
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% endwith %}
+        <!-- Group list to display all necessary fields -->
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <div class="card-body">
+              <div class="row">
+                <h5><span style="font-weight: bold;">Status:</span></h5>
+                <p> {{form.status}} </p>
+                <p> Current: {{event.status}} </p>
+              </div>
+
+              <br>
+
+              <h5><span style="font-weight: bold;">Upload Image:</span></h5>
+              <p> {{form.image}} </p>
+              <p> Current: {{event.image}} </p>
+
+              <h5><span style="font-weight: bold; max-width: 50px;">Title:</span></h5>
+              <h1> {{form.name}} </h1>
+              <p> Current: {{event.name}} </p>
+
+              <h5><span style="font-weight: bold; max-width: 50px;">Date:</span></h5>
+              <p> {{form.startDate}} </p>
+              <p> Current: {{event.startDate}} </p>
+
+              <h5><span style="font-weight: bold; max-width: 50px;">Description:</span></h5>
+              <div class="row">
+                <p class="col 12">
+                  {{form.description(style="min-width: 50%; min-height: 100px;")}}
+                </p>
+                <p> Current: {{event.description}} </p>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-6">
+                  <h5><span style="font-weight: bold;">Genre:</span></h5>
+                  <p> {{form.genre}} </p>
+                  <p> Current: {{event.genre}} </p>
+                  <h5><span style="font-weight: bold;">Artists:</span></h5>
+                  <p> {{form.artists}} </p>
+                  <p> Current: {{event.artists}} </p>
+                </div>
+                <div class="col-12 col-md-6">
+                  <h5><span style="font-weight: bold;">Start time:</span></h5>
+                  <p> {{form.startTime}} </p>
+                  <p> Current: {{event.startTime}} </p>
+                  <h5><span style="font-weight: bold;">End time:</span></h5>
+                  <p> {{form.endTime}} </p>
+                  <p> Current: {{event.endTime}} </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-6">
+                  <h5><span style="font-weight: bold;">Location:</span></h5>
+                  <p> {{form.location}} </p>
+                  <p> Current: {{event.location}} </p>
+                </div>
+                <div class="col-12 col-md-6">
+                  <h5><span style="font-weight: bold;">Ticket Quantity:</span></h5>
+                  <p> {{form.ticketQuantity}} </p>
+                  <p> Current: {{event.ticketQuantity}} </p>
+                  <h5><span style="font-weight: bold;">Ticket Price:</span></h5>
+                  <p> {{form.ticketPrice}} </p>
+                  <p> Current: {{event.ticketPrice}} </p>
+                </div>
+                
+                {{form.submitEdit(class="btn btn-primary")}}
+                {{form.submitDelete(class="btn btn-primary")}}
+              </div>
+          </li>
+        </ul>
+      </div>
+  </form>
+</article>
+</div>
+{% endblock %}

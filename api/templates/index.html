@@ -1,0 +1,103 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}" />
+<script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"
+  integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous"
+  async></script>
+{% endblock %} {% block content %}
+<!--Jumbotron for event image-->
+<div class="jumbotron-image">
+  <div class="p-5 rounded-3">
+    <div class="container-fluid py-5">
+      <h1 class="display-5 fw-bold">Welcome,</h1>
+      <p class="col-md-8 fs-4">
+        EventFest is one of the biggest online booking system <br />
+        for the hottest music festival near you! Browse from <br />
+        up to eight different music genres of events or even <br />
+        create your own events for everyone to come and party!
+
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Search -->
+<div class="main bg-white">
+  <div class="container">
+    <div class="row justify-content-center mt-5 pb-4 search">
+      <div class="col-md-10">
+        <div class="card shadow p-5 mb-5 mh-100">
+          <h1 class="text-center mb-3">Find our best music events</h1>
+          <form class="form-inline d-flex flex-nowrap" action="{{url_for('main.search')}}">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-md-12 col-lg-7 my-1">
+                  <input type="text" list="test" placeholder="Search, Select category" name="search"
+                    class="search-input form-control flex-grow-1 w-100" id="SearchForm" />
+                  <datalist id="test">
+                    <!-- Show each genre in the dropdown for search -->
+                    {% for genre in genres %}
+                    <option value={{genre}}></option>
+                    {% endfor %}
+                  </datalist>
+                </div>
+                <div class="col-md-12 col-lg-2 my-1">
+                  <button type="submit" class="btn btn-primary w-100">
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Displaying all events -->
+  <div class="container card-view">
+    <div data-masonry='{"percentPosition": true }' class="row">
+      {% for event in events %}
+      <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 my-4">
+        <div class="event-card">
+          <img src="{{event.image}}" class="card-img-top" style="height: 300px; object-fit: cover" alt="..." />
+          <div class="card-body">
+            <h3 class="card-title">{{event.title}}</h3>
+            <!-- if statement to change status colour according to its value -->
+            {% if event.status == 'Upcoming' %}
+            <div class="status" style="background-color: rgba(0, 128, 0, 0.5)">
+              <p class="status__text">{{event.status}}</p>
+            </div>
+
+            {% elif event.status == 'Booked' %}
+            <div class="status" style="background-color: rgba(1, 25, 77, 0.575)">
+              <p class="status__text">{{event.status}}</p>
+            </div>
+            {% elif event.status == 'Cancelled' %}
+            <div class="status" style="background-color: rgba(155, 26, 32, 0.5)">
+              <p class="status__text">{{event.status}}</p>
+            </div>
+            {% elif event.status == 'Inactive' %}
+            <div class="status" style="background-color: rgba(104, 104, 104, 0.5)">
+              <p class="status__text">{{event.status}}</p>
+            </div>
+            {% endif %}
+            <p class="card-text">Genre: {{event.genre}}</p>
+            <p class="card-text">Description: {{event.description}}</p>
+            <p class="card-text">Artists: {{event.artists}}</p>
+            <!-- Checking if the events shown was created by the current logged in user to display the edit button -->
+            {% if event.creator == current_user.id %}
+            <a href="{{ url_for('event.eventView', id=event.id) }}" style="margin-bottom:10px"
+              class="btn btn-primary w-100">View</a>
+            <a href="{{ url_for('event.editEvent', id=event.id) }}" class="btn btn-warning w-100">Edit</a>
+            {% else %}
+            <a href="{{ url_for('event.eventView', id=event.id) }}" class="btn btn-primary w-100">View</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% endblock %}
+</div>

@@ -1,0 +1,13 @@
+.jumbotron-image {
+    background-image: linear-gradient(to right bottom, #858585a8, #2929299c), url("https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
+    background-size: cover;
+    background-position: bottom;
+    color: white;
+    height: 1000px
+} 
+
+.go-home-btn{
+    justify-content: center;
+    align-items: center;
+    padding: 2% 5% 0% 5%;
+}

@@ -1,0 +1,21 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+    }
+  
+  body {
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  footer {
+    width: 100%;
+  }
+  .footer-space {
+    padding-bottom: 5em;
+  }
+  
+  .navtext {
+    color: white;
+  }

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Page Not Found{% endblock %}
+{% block content %}
+<!-- Error jumbotron -->
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/error.css') }}" />
+<div class="jumbotron-image">
+  <div class="p-5 rounded-3">
+    <div class="container-fluid py-5">
+      <h1 class="display-5 fw-bold">Error {{error_code}}</h1>
+      <p class="col-md-8 fs-4">{{error_message}}</p>
+      <br>
+      <br>
+      <div class="row go-home-btn">
+        <div class="go-home-btn">
+          <p><a href="{{url_for('main.index')}}" class="btn btn-primary col-12">go somewhere nice</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

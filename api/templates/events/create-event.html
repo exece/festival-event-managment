@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/create-event.css') }}" />
+
+{% endblock %}
+
+{% block content %}
+
+<!-- Main article encapsulates the entire create form -->
+
+<article class="container-fluid">
+  <form method="POST" action="" enctype="multipart/form-data">
+    <!-- Stops cross-site scripting -->
+    {{ form.hidden_tag() }} 
+    <div class="row main">
+      <div class="card border-light sub">
+        <div class="row text-center">
+          <h1>Create Your Event!</h1>
+        </div>
+        <!-- flashes any messages to the user -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <!-- check if there are any messages -->
+        <div class="container-fluid">
+          <div class="row mt-3 mb-3">
+            <div class="col-md-12">
+              <!-- Displays any messages -->
+              {% for message in messages %}
+              <div class="alert alert-warning">{{ message }}</div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% endwith %}
+        <!-- Displays inputs from event form -->
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <div class="card-body">
+              <div class="row">
+                <h5><span style="font-weight: bold;">Status:</span></h5>
+                <p> {{form.status}} </p>
+              </div>
+              <br>
+              <h5><span style="font-weight: bold;">Upload Image:</span></h5>
+              <p> {{form.image}} </p>
+              <h5><span style="font-weight: bold; max-width: 50px;">Title:</span></h5>
+              <p> {{form.name}} </p>
+              <h5><span style="font-weight: bold; max-width: 50px;">Date:</span></h5>
+              <p> {{form.startDate}} </p>
+              <h5><span style="font-weight: bold; max-width: 50px;">Description:</span></h5>
+              <div class="row">
+                <p class="col 12">
+                  {{form.description(style="min-width: 50%; min-height: 100px;")}}
+                </p>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-6">
+                  <h5><span style="font-weight: bold;">Genre:</span></h5>
+                  <p> {{form.genre}} </p>
+                  <h5><span style="font-weight: bold;">Artists:</span></h5>
+                  <p> {{form.artists}} </p>
+                </div>
+                <div class="col-12 col-md-6">
+                  <h5><span style="font-weight: bold;">Start time:</span></h5>
+                  <p> {{form.startTime}} </p>
+                  <h5><span style="font-weight: bold;">End time:</span></h5>
+                  <p> {{form.endTime}} </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-6">
+                  <h5><span style="font-weight: bold;">Location:</span></h5>
+                  <p> {{form.location}} </p>
+                </div>
+                <div class="col-12 col-md-6">
+                  <h5><span style="font-weight: bold;">Ticket Quantity:</span></h5>
+                  <p> {{form.ticketQuantity}} </p>
+                  <h5><span style="font-weight: bold;">Ticket Price:</span></h5>
+                  <p> {{form.ticketPrice}} </p>
+                </div>
+                <br>
+                <!-- Submit button using event form -->
+                <div class="row">
+                  {{form.submit(class="btn btn-primary")}} 
+                </div>
+              </div>
+          </li>
+        </ul>
+      </div>
+  </form>
+</article>
+</div>
+{% endblock %}

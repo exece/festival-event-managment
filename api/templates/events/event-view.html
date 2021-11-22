@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='./styles/event-view.css') }}" />
+
+{% endblock %}
+
+<body>
+
+  {% block content %}
+
+  <div class="background-cover" style="background-image:url({{event.image}})">
+  </div>
+
+
+  <article class="container-fluid">
+    <div class="row main">
+      <div class="card border-light sub">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <div class="card-body">
+
+              <div class="row my-3">
+                <h1 class="card-title col-12 text-center" style="background-color: #ffc720">{{event.name}}
+                </h1>
+              </div>
+              {% if event.status == 'Upcoming' %}
+              <div class="row" style="background-color: rgba(0, 128, 0, 0.5);">
+                <h3 class="status-view">{{event.status}}</h3>
+              </div>
+              {% elif event.status == 'Booked' %}
+              <div class="row" style="background-color: rgba(12, 50, 134, 0.5);">
+                <h3 class="status-view">{{event.status}}</h3>
+              </div>
+              {% elif event.status == 'Cancelled' %}
+              <div class="row" style="background-color: rgba(155, 26, 32, 0.5);">
+                <h3 class="status-view">{{event.status}}</h3>
+              </div>
+              {% elif event.status == 'Inactive' %}
+              <div class="row" style="background-color: rgba(104, 104, 104, 0.5)">
+                <h3 class="status-view">{{event.status}}</h3>
+              </div>
+              {% endif %}
+              <br>
+              <div class="row">
+                <div class="col-12 col-md-6">
+                  <h5><span style="font-weight: bold;">Description:</span></h5>
+                  <p class="col 12">{{event.description}}</p>
+                  <h5><span style="font-weight: bold;">Genre:</span></h5>
+                  <p>{{event.genre}}</p>
+                  <h5><span style="font-weight: bold;">Artists:</span></h5>
+                  <p>{{event.artists}}</p>
+                  <h5 class="col"><span style="font-weight: bold;">Ticket Quantity:</span></h5>
+                  {% if event.ticketQuantity == '0' %}
+                  <p><span style="color: red;"> {{event.ticketQuantity}} Remaining </span></p>
+                  {% elif event.ticketQuantity != '0' %}
+                  <p><span style="color: green;"> {{event.ticketQuantity}} Remaining </span></p>
+                  {% endif %}
+                </div>
+                <div class="col-12 col-md-6">
+                  <h5><span style="font-weight: bold;">Date:</span></h5>
+                  <p class="col 12">{{event.startDate}}</p>
+                  <h5><span style="font-weight: bold;">Time:</span></h5>
+                  <p>{{event.startTime}} - {{event.endTime}}</p>
+                  <h5><span style="font-weight: bold;">Location:</span></h5>
+                  <p>{{event.location}}</p>
+                  <h5><span style="font-weight: bold;">Ticket Price:</span></h5>
+                  <p>${{event.ticketPrice}}</p>
+                </div>
+              </div>
+              <br>
+            </div>
+
+            <!-- flashes any messages to the user -->
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <!-- check if there are any messages -->
+            <div class="container-fluid">
+              <div class="row mt-3 mb-3">
+                <div class="col-md-12">
+                  {% for message in messages %}
+                  <!--loop through the messages-->
+                  <div class="alert alert-warning">{{ message }}</div>
+                  <!--display as alert-->
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            <h2>Quantity</h2>
+            {{wtf.quick_form(bform,"/events/{0}/booking".format(event.id))}}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Comments -->
+    <div class="mx-5 my-5">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Comments</h2>
+        </div>
+      </div>
+      {{wtf.quick_form(cform,"/events/{0}/comment".format(event.id))}}
+
+      <div class="container">
+        <div class="row">
+          {% for comment in event.comments %}
+          <div class="comment col-md-12 my-3 shadow rounded-3">
+            <card class="card" style="border: none;">
+              <h3>{{comment.user.name}}</h3>
+              <span class="ml-2 text-muted">{{comment.created_at.strftime('%a, %d/%m/%Y')}}</span>
+              <p>{{comment.text}}</p>
+            </card>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </article>
+</body>
+
+{% endblock %}
